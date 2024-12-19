@@ -1,17 +1,12 @@
-from typing import List
 from utils.timing_utils import measure_time
 
 '''
-Problem: Given SORTED array of numbers, find query number with fewest comparisons. Output the index of query
-If no number found return -1
+Problem: Given SORTED array of numbers, find query number with fewest comparisons. Output the index of query.
+If no number found, return -1.
 '''
 
-import sys
-print(sys.path[0:3])
-print("_____________________________")
 
-
-def linear_search(arr: List[int], query: int) -> int:
+def linear_search(arr: list[int], query: int) -> int:
     for index, value in enumerate(arr):
         if value == query:
             return index

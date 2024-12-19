@@ -1,13 +1,14 @@
-from typing import List, Callable, Any
+from collections.abc import Callable  # since Python 3.9
+from typing import Any  
 import timeit
 
 
-def measure_time(func: Callable, *args: Any, **kwargs: Any) -> float:
+def measure_time(func: Callable[..., Any], *args: Any, **kwargs: Any) -> float:
     """Executes a function 5 times and returns its average execution time.
     Also prints the execution statement.
     
     Args:
-        func (Callable): Function to be measured.
+        func (Callable[..., Any]): Function to be measured.
         *args (Any): Positional arguments to pass to the function.
         **kwargs (Any): Keyword arguments to pass to the function.
 
@@ -16,7 +17,7 @@ def measure_time(func: Callable, *args: Any, **kwargs: Any) -> float:
     """
 
     # wrapper function because timeit.timeit expects a function with no arguments
-    def wrapper():
+    def wrapper() -> Any:
         return func(*args, **kwargs)
 
     repeat_count: int = 5
