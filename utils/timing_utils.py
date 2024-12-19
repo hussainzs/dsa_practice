@@ -1,9 +1,10 @@
 from typing import List, Callable, Any
 import timeit
 
+
 def measure_time(func: Callable, *args: Any, **kwargs: Any) -> float:
     """Executes a function 5 times and returns its average execution time.
-    Also prints the exection statement.
+    Also prints the execution statement.
     
     Args:
         func (Callable): Function to be measured.
@@ -13,14 +14,14 @@ def measure_time(func: Callable, *args: Any, **kwargs: Any) -> float:
     Returns:
         float: measured execution time
     """
-    
-    # wrapper function because timeit.timeit expects a function with no arguements
+
+    # wrapper function because timeit.timeit expects a function with no arguments
     def wrapper():
         return func(*args, **kwargs)
-    
+
     repeat_count: int = 5
     execution_time: float = timeit.timeit(stmt=wrapper, number=repeat_count)
     average_time: float = execution_time / repeat_count
-    
-    print(f"Ran {func.__name__} for {repeat_count} times. Average Execution time = {average_time} seconds")   
+
+    print(f"Ran {func.__name__} for {repeat_count} times. Average Execution time = {average_time} seconds")
     return average_time
