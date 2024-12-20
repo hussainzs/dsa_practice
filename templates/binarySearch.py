@@ -25,7 +25,7 @@ def binary_search(arr: list[int], query: int) -> int:
     right: int = len(arr) - 1
     
     while left <= right:
-        mid: int = int((left + right) / 2)
+        mid: int = (left + right) // 2
         if arr[mid] == query:
             return mid
         elif arr[mid] > query:
