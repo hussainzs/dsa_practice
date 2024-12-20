@@ -40,30 +40,13 @@ class Test(TypedDict):
     query: int
     output: int
 
-test1: Test = {
-    'input': [1,2,3,4,5,6], 
-    'query': 5,
-    'output': 4 
-}
-
-test2: Test = {
-    'input': [1], 
-    'query': 1,
-    'output': 0 
-}
-
-test3: Test = {
-    'input': [1], 
-    'query': -9,
-    'output': -1 
-}
-
-test4: Test = {
-    'input': [], 
-    'query': 5,
-    'output': -1 
-}
-tests: list[Test] = [test1, test2, test3, test4]
+# Test cases
+tests: list[Test] = [
+    {'input': [1, 2, 3, 4, 5, 6], 'query': 5, 'output': 4},
+    {'input': [1], 'query': 1, 'output': 0},
+    {'input': [1], 'query': -9, 'output': -1},
+    {'input': [], 'query': 5, 'output': -1}
+]
 
 def run_tests(test_arr: list[Test]) -> None:
     """
@@ -73,11 +56,6 @@ def run_tests(test_arr: list[Test]) -> None:
                                containing 'input' (list[int]), 'query' (int), and 'output' (int).
     Returns:
         None
-    The function performs the following steps:
-    1. Iterates over the test cases and runs the binary search algorithm.
-    2. Compares the output of the binary search with the expected output.
-    3. Prints whether the binary search test passed or failed.
-    4. Performs steps 1-3 on Linear Search as well
     """
     for index, test in enumerate(test_arr):
         input: list[int] = test['input']
