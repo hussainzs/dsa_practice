@@ -1,9 +1,12 @@
-from token import ELLIPSIS
 from utils.timing_utils import measure_time
+from typing import TypedDict
 
 '''
 Problem: Given SORTED array of numbers, find query number with fewest comparisons. Output the index of query.
 If no number found, return -1.
+
+Note: if the requirement was to return the index of first or last occurance (in case of repeating numbers) then 
+we wull have to edit the standard implementation.
 '''
 
 
@@ -32,5 +35,81 @@ def binary_search(arr: list[int], query: int) -> int:
     # if we havent returned index so far then no match was found
     return -1
 
+class Test(TypedDict):
+    input: list[int]
+    query: int
+    output: int
 
-measure_time(linear_search, [1, 2, 3, 4, 5, 6, 7, 8, 9], 9)
+test1: Test = {
+    'input': [1,2,3,4,5,6], 
+    'query': 5,
+    'output': 4 
+}
+
+test2: Test = {
+    'input': [1], 
+    'query': 1,
+    'output': 0 
+}
+
+test3: Test = {
+    'input': [1], 
+    'query': -9,
+    'output': -1 
+}
+
+test4: Test = {
+    'input': [], 
+    'query': 5,
+    'output': -1 
+}
+tests: list[Test] = [test1, test2, test3, test4]
+
+def run_tests(test_arr: list[Test]) -> None:
+    """
+    Runs binary search and linear search tests on a list of test cases.
+    Args:
+        test_arr (list[Test]): A list of test cases where each test case is a dictionary
+                               containing 'input' (list[int]), 'query' (int), and 'output' (int).
+    Returns:
+        None
+    The function performs the following steps:
+    1. Iterates over the test cases and runs the binary search algorithm.
+    2. Compares the output of the binary search with the expected output.
+    3. Prints whether the binary search test passed or failed.
+    4. Performs steps 1-3 on Linear Search as well
+    """
+    for index, test in enumerate(test_arr):
+        input: list[int] = test['input']
+        query: int = test['query']
+        expected_out: int = test['output']
+        
+        bs_out: int = binary_search(input, query)
+        
+        if bs_out == expected_out:
+            print(f"Binary Search test {index} passed ✅")
+            measure_time(binary_search, input, query)
+        else:
+            print(f"Binary Search test {index} failed ❌")
+            print(f"input = {input}, query = {query}, expected output = {expected_out}")
+            print()
+            
+    print()
+    for index, test in enumerate(test_arr):
+        input: list[int] = test['input']
+        query: int = test['query']
+        expected_out: int = test['output']
+        
+        ls_out: int = linear_search(input, query)
+        
+        if ls_out == expected_out:
+            print(f"Linear Search test {index} passed ✅")
+            measure_time(linear_search, input, query)
+        else:
+            print(f"Linear Search test {index} failed ❌")
+            print(f"input = {input}, query = {query}, expected output = {expected_out}")
+            print()
+            
+# Run tests
+run_tests(tests)
+        
