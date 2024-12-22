@@ -1,4 +1,7 @@
+from logging import raiseExceptions
 from typing import Any, Optional
+
+from argon2 import Type
 
 class Node:
     """
@@ -41,9 +44,33 @@ For our LinkedList we will keep track of 3 things
 class LinkedList:
     def __init__(self, contents: list[Any] = []) -> None:
         # first define a dummy node with none item and none reference
-        self.first: Optional['Node'] = Node(None, None)
-        self.last: Optional['Node'] = self.first
+        self.first: Node = Node(None, None)
+        self.last: Node = self.first
         self.numitems: int = 0
         
         # TODO: if at initiatization, list content was provided then add this to the list starting from dummy
+        for c in contents:
+            self.append(c)
         
+    def append(self, item: Any) -> None:
+        if item is None:
+            raise TypeError(f"Expected non-null values, recieved Null/None")
+        
+        nextNode: Node = Node(item, None) # initialize a Node 
+        self.last.setNext(next_input=nextNode) # redirect the current last node to next Node
+        self.last = nextNode # update our pointer of last node to next Node
+        
+        
+        
+        
+        
+        
+
+"""
+Possible Questions:
+Q1. HOW DID YOU HANDLE APPENDING NULL VALUES OR EMPTY VALUES?
+Ans: In this implementation, I returned an error. But depends on the design choice
+
+Q2. HOW WOULD YOU ENFORCE THAT SAME TYPE OF DATA IS INSERTED IN THE LIST?
+Ans: I would store the data type as an internal attribute i.e. `self._data_type` and raise validation errors in methods
+"""
