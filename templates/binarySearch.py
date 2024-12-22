@@ -57,6 +57,7 @@ def run_tests(test_arr: list[Test]) -> None:
     Returns:
         None
     """
+    # first, run all binary search tests
     for index, test in enumerate(test_arr):
         input: list[int] = test['input']
         query: int = test['query']
@@ -73,6 +74,7 @@ def run_tests(test_arr: list[Test]) -> None:
             print()
             
     print()
+    # second, run all linear search tests
     for index, test in enumerate(test_arr):
         input: list[int] = test['input']
         query: int = test['query']
