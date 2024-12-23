@@ -1,3 +1,4 @@
+from turtle import right
 from typing import Any, Optional
 
 # Node 
@@ -48,11 +49,11 @@ class DoubleLinkedList:
         currentLast: Node = self.last  # Store the current last node from the list
         # Create a new node with the given value, setting its previous node to the current last node and next node to None
         newLastNode: Node = Node(val, prev=currentLast, next=None)  
-        self.last.next = newLastNode  # Link the current last node next pointer to new last node
+        self.last.setNext(newLastNode) # Link the current last node next pointer to new last node
         self.last = newLastNode  # Update the last node reference to the new node
         self.length += 1  
         
-    def get_index(self, index: int) -> Optional['Node']:
+    def get_node_at_index(self, index: int) -> Node:
         if index < 0 or index >= self.length:
             max_valid_index: int = 0 if self.length == 0 else self.length - 1
             raise IndexError(f"Index out of bounds, max valid index was {max_valid_index}")
@@ -61,7 +62,44 @@ class DoubleLinkedList:
         for _ in range(index):
             if curr_node is not None:
                 curr_node = curr_node.getNext()
+        assert curr_node is not None, "This method must return valid Node, for invalid index it raises IndexError"
         return curr_node
+    
+    def set_val_at_index(self, index: int, val: Any) -> None:
+        current_node: Node = self.get_node_at_index(index)
+        current_node.setValue(val)
+        
+    def remove_at_index(self, index: int) -> int:
+        """Removes the Node at given index. Adjusts the attached pointers to deleted node.
+
+        Args:
+            index (int): index in the list where node has to be deleted
+
+        Returns:
+            int: updated length after removal
+        """
+        node_to_remove: Node = self.get_node_at_index(index)
+        
+        # Get left and right of the node to remove
+        node_before_target: Optional['Node'] = node_to_remove.getPrev() # left of the desired node
+        assert node_before_target is not None # if get_node_at_index didn't throw an error we have a valid index which has a Node on the left for sure
+        node_after_target: Optional['Node'] = node_to_remove.getNext() # right of the desired node
+        
+        # Update neighboring links        
+        node_before_target.setNext(node_after_target) # next pointer of left -> right
+        # if we were removing the last node (i.e. Node after target is None)
+        if node_after_target is None: 
+            self.last = node_before_target # update the reference to last node but don't set prev pointer
+        else:
+            node_after_target.setPrev(node_before_target) # prev pointer of right to left
+            
+        # Help garbage collector by setting item to be removed to none
+        node_to_remove.setNext(None)
+        node_to_remove.setPrev(None)
+        node_to_remove.setValue(None)
+                   
+        self.length -= 1
+        return self.length  
             
         
         
