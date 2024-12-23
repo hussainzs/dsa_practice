@@ -1,3 +1,4 @@
+from turtle import right
 from typing import Any, Optional
 
 class Node:
@@ -186,6 +187,40 @@ class LinkedList:
         assert newItem is not None, "Expected non-null value to set, received None"
         current_node: Node = self.get_indexed_item(index)
         current_node.setItem(newItem)
+    
+    def remove_at_index(self, index: int) -> int:
+        """
+        Removes the node at specified index and adjusts the pointers of its neighbors
+        
+        Parameters
+        ----------
+        index: int 
+            The index of node to be removed
+        
+        Returns
+        -------
+        int
+            remaining length of list after removal
+        """
+        node_to_remove: Node = self.get_indexed_item(index)
+        # we know there will always be a left node at index - 1 because of the dummy node 
+        # and because we only execute this if get_indexed_item above didn't raise an error 
+        # which means the index is valid.
+        left_node: Node = self.get_indexed_item(index - 1)
+        # but we may not have a right node (it might be None) because we may be removing the last item
+        right_node: Optional['Node'] = node_to_remove.getNext()
+        
+        # Adjust the links from left to right
+        left_node.setNext(right_node)
+        
+        # Help garbage collector by setting its links to none
+        node_to_remove.setNext(None)
+        
+        self.numitems -= 1
+        return self.numitems
+        
+    
+        
         
 """
 Possible Questions:
