@@ -34,5 +34,22 @@ class Node:
         
 
 # Doubly LinkedList Class 
+class DoubleLinkedList:
+    def __init__(self, contents: list[Any] = []) -> None:
+        self.first: Node = Node(None, prev=None, next=None) #Dummy Node
+        self.last: Node = self.first
+        self.length: int = 0
+        
+        #initialize the list with values given in contents array
+        for c in contents:
+            self.append(c)
+        
+    def append(self, val: Any) -> None:
+        currentLast: Node = self.last
+        newLastNode: Node = Node(val, prev=currentLast, next=None)
+        self.last.next = newLastNode
+        self.last = newLastNode
+        
+        
 
 # Problems 
