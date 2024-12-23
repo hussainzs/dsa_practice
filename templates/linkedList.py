@@ -160,8 +160,8 @@ class LinkedList:
             else:
                 raise IndexError(f"Index out of bounds, max valid index is {max_valid_index}")
             
-        current_node: Optional['Node'] = self.first
-        for _ in range(self.numitems + 1):
+        current_node: Optional['Node'] = self.first.getNext()
+        for _ in range(index):
             if current_node is not None: 
                 current_node = current_node.getNext()
         assert current_node is not None, "This strict method can't return None"
