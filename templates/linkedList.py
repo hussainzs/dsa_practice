@@ -1,5 +1,4 @@
 from dataclasses import field, dataclass
-from hmac import new
 from typing import Optional, Any
 
 @dataclass
@@ -8,13 +7,14 @@ class Node:
     next: Optional['Node'] = field(default=None)
 
 class LinkedList:
-    def __init__(self, contents: list[Any] = []) -> None:
+    def __init__(self, contents: list[Any] | None = None) -> None:
         self.head: Node = Node(value=None, next=None) # set head to a dummy node
         self.tail: Node = self.head
         self.size: int = 0
         
-        for c in contents:
-            self.append(c)
+        if contents is not None:
+            for c in contents:
+                self.append(c)
     
     def append(self, val: Any) -> None:
         if val is None:
@@ -41,15 +41,35 @@ class LinkedList:
         node_to_update.value = val
         
     def remove_at_index(self, index: int) -> int:
+        """Remove node at given index from the list. 
+
+        Args:
+            index (int): index of node to be removed
+
+        Returns:
+            int: the size (num of itens) of the list AFTER the removal
+            
+        Raises:
+            IndexError: if index < 0 or index >= size
+        """
+        # check if valid index is requeested to remove
         node_to_remove: Node = self.get_value_at_index(index)
-        prev_node: Node = self.get_value_at_index(index - 1)
-        
+        prev_node: Node # Node prev to the one we want to remove
+        if index == 0: # if removing the first item then prev is dummy node
+            prev_node = self.head
+        else:
+            prev_node = self.get_value_at_index(index - 1)
+        # if removing the last item then update tail to be its prev node
         if index == self.size - 1:
             self.tail = prev_node
-        
+        # adjust the links from prev
         prev_node.next = node_to_remove.next
-        self.size -= 1
+        self.size -= 1 # decrement size by 1 after successful removal
         return self.size
+        
+        
+        
+        
             
     
         
