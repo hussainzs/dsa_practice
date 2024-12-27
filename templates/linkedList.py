@@ -27,6 +27,8 @@ class LinkedList:
         self.size += 1
 
     def get_value_at_index(self, index: int) -> Node:
+        if index is None:
+            raise IndexError("Index can not be None")
         if index < 0 or index >= self.size:
             raise IndexError(f"Index out of bounds, max valid index is {self.size - 1}")
         curr_node: Optional['Node'] = self.head.next  # first valid node
