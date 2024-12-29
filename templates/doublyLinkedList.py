@@ -9,9 +9,9 @@ class Node:
     
 class DoublyLinkedList:
     def __init__(self, contents: list[Any] | None = None) -> None:
-        self.head: Node = Node(value=None, prev=None, next=None)
-        self.tail: Node = self.head
-        self.size: int = 0
+        self._head: Node = Node(value=None, prev=None, next=None)
+        self._tail: Node = self._head
+        self._size: int = 0
         
         if contents is not None:
             for c in contents:
@@ -29,10 +29,10 @@ class DoublyLinkedList:
         if value is None:
             raise TypeError("None/Null value can not be inserted")
         
-        new_node: Node = Node(value=value, prev=self.tail, next=None) # initializze new tail
-        self.tail.next = new_node # set current tail's next pointer to new tail
-        self.tail = new_node # update our tail pointer to new tail
-        self.size += 1 # increment size by 1
+        new_node: Node = Node(value=value, prev=self._tail, next=None) # initializze new tail
+        self._tail.next = new_node # set current tail's next pointer to new tail
+        self._tail = new_node # update our tail pointer to new tail
+        self._size += 1 # increment size by 1
         
     def get_value_at_index(self, index: int) -> Node:
         """Get the node at specified index. Equivalent to a normal list indexing like arr[index]
@@ -49,10 +49,10 @@ class DoublyLinkedList:
         """
         if index is None:
             raise IndexError("Index can not be None")
-        if index < 0 or index > self.size - 1:
-            raise IndexError(f"Index out of bounds, max valid index is {self.size - 1}")
+        if index < 0 or index > self._size - 1:
+            raise IndexError(f"Index out of bounds, max valid index is {self._size - 1}")
         
-        current_node: Optional["Node"] = self.head.next # get first valid node (maybe none if list empty)
+        current_node: Optional["Node"] = self._head.next # get first valid node (maybe none if list empty)
         for _ in range(index): 
             if current_node is not None: # if current_node none then .next does not exist so we must check
                 current_node = current_node.next # move to next node in the chain
@@ -87,12 +87,12 @@ class DoublyLinkedList:
         prev_node: Node # node to the left of node we want to remove
         next_node: Optional['Node'] = node_to_remove.next # this can be None (if remvoing the last element)
         if index == 0: # if removing the first element, the prev node is dummy node
-            prev_node = self.head # we can't use get method here becuase we will have to pass invalid index
+            prev_node = self._head # we can't use get method here becuase we will have to pass invalid index
         else:
             prev_node = self.get_value_at_index(index-1) 
         
         if next_node is None: # if removing last node then next_node is None
-            self.tail = prev_node # therefore, update tail pointer to prev_node (this maybe dummy node in case there was only 1 element)
+            self._tail = prev_node # therefore, update tail pointer to prev_node (this maybe dummy node in case there was only 1 element)
         else:
             next_node.prev = prev_node # here next_node can never be null thus set its prev pointer to prev_node
 
@@ -103,12 +103,6 @@ class DoublyLinkedList:
         del(node_to_remove)
         
         # update size
-        self.size -= 1
-        return self.size
-        
-            
-        
-        
-            
-        
-        
+        self._size -= 1
+        return self._size
+     

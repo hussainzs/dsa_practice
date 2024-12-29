@@ -86,19 +86,19 @@ class LinkedList:
         Returns:
             None
         """
+        # if dummy head next is None then list is empty
         assert self._head.next is not None, "Can not remove head from empty linked list"
         
-        current_first: Node = self._head.next # get the head (remember that's next of dummy node which is always the head)
+        current_first: Node = self._head.next # get the actual head we want to remove 
         
-        if current_first == self._tail: # if there is only one Node in list (which will be the tail)
-            self._tail = self._head # update the tail to dummy head since that one item is about to be removed
+        if current_first == self._tail: # if there is only one Node in list then current_first will be the tail as well
+            self._tail = self._head # update the tail to dummy head since that one and only item is about to be removed
         
         self._head.next = current_first.next # set the dummy head's next to whatever comes after current_first
+        self._size -= 1
+        
         del(current_first)
         
     def get_size(self) -> int:
         return self._size
-        
-            
-        
         
