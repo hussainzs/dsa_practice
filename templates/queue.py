@@ -1,17 +1,22 @@
 from typing import Any
+from linkedList import LinkedList
 
 class Queue:
     def __init__(self, contents: list[Any] | None = None) -> None:
-        pass
+        if contents is not None:
+            self.queue = LinkedList(contents=contents)
+        else:
+            self.queue = LinkedList()
     
     def enqueue(self, item: Any) -> None:
-        pass
+        assert item is not None, "Can not enqueue from empty queue"
+        self.queue.append(item)
     
     def peek (self) -> Any:
-        pass
+        self.queue.get_head()
     
     def is_empty(self) -> bool:
-        return False
+        return self.queue.get_size() == 0
     
     def dequeue(self) -> Any:
-        pass
+        self.queue.remove_head()
