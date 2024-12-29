@@ -70,3 +70,32 @@ class LinkedList:
         prev_node.next = node_to_remove.next
         self.size -= 1  # decrement size by 1 after successful removal
         return self.size
+    
+    def get_head(self) -> Any:
+        """Returns the head of the list. Helpful for Queue implementation
+
+        Returns:
+            Any: Value at the head (front) of the linkedlist
+        """
+        return self.head.value
+    
+    def remove_head(self) -> None:
+        """Removes the head of the list. Throws assertion error if list is empty
+        Helpful in Queue implementation
+        
+        Returns:
+            None
+        """
+        assert self.head.next is not None, "Can not remove head from empty linked list"
+        
+        current_first: Node = self.head.next # get the head (remember that's next of dummy node which is always the head)
+        
+        if current_first == self.tail: # if there is only one Node in list (which will be the tail)
+            self.tail = self.head # update the tail to dummy head since that one item is about to be removed
+        
+        self.head.next = current_first.next # set the dummy head's next to whatever comes after current_first
+        del(current_first)
+        
+            
+        
+        
