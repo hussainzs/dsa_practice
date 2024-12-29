@@ -9,7 +9,7 @@ class Queue:
             self.queue = LinkedList()
     
     def enqueue(self, item: Any) -> None:
-        assert item is not None, "Can not enqueue from empty queue"
+        assert item is not None, "Can not enqueue Null item into the Queue"
         self.queue.append(item)
     
     def peek (self) -> Any:
