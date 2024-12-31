@@ -55,13 +55,13 @@ class BinarySearchTree:
             return None
         def __search_recursive(curr: Optional['BSTNode']) -> Optional[BSTNode]:
             if curr is None:
-                return None
+                return None # couldn't find the desired node
             elif curr.value == val:
-                return curr
-            elif curr.value >= val:
-                return __search_recursive(curr.right)
+                return curr # return the desired node since we found it
+            elif val >= curr.value:
+                return __search_recursive(curr.right) # explore right subtree
             else:
-                return __search_recursive(curr.left)
+                return __search_recursive(curr.left) # explore left subtree
         return __search_recursive(self.root)
         
 
