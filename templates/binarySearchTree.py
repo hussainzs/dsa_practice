@@ -90,7 +90,14 @@ class BinarySearchTree:
         return self.num_nodes == 0
     
     def sum(self) -> int:
-        return 0
+        def __sum(curr_node: Optional['BSTNode']) -> int:
+            if curr_node is None:
+                return 0
+            left_sum: int = __sum(curr_node.left)
+            right_sum: int = __sum(curr_node.right)
+            return curr_node.value + left_sum + right_sum
+        return __sum(self.root)
+            
     
     def inorder_traversal(self) -> list[int]:
         return []
