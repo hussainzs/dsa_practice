@@ -1,10 +1,5 @@
 from dataclasses import dataclass, field
-from logging import raiseExceptions
-from multiprocessing import Value
-from optparse import Option
 from typing import Optional
-
-from pkg_resources import non_empty_lines
 
 @dataclass
 class BSTNode:
@@ -146,8 +141,29 @@ class BinarySearchTree:
             return curr_node.value + left_sum + right_sum
         
         return __sum(self.root)
-            
     
+    def height(self) -> int:
+        """
+        Calculate the height of the BST.
+        The height of a binary search tree is the number of edges 
+        on the longest path from the root node to a leaf node. 
+        An empty tree has a height of -1 
+        
+        Returns:
+            int: The height of the tree. Returns -1 if the tree is empty.
+        """
+        if self.root is None:
+            return -1 # height of empty tree is -1
+        
+        def __height(node: BSTNode) -> int:
+            if node is None:
+                return -1
+            left_height: int = __height(node.left) if node.left is not None else 0
+            right_height: int = __height(node.right) if node.right is not None else 0
+            return 1 + max(left_height, right_height)
+        
+        return __height(self.root)
+        
     def inorder_traversal(self) -> list[int]:
         return []
 
