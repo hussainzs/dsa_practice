@@ -13,7 +13,6 @@ class BinarySearchTree:
         self.root: Optional[BSTNode] = None
         self.num_nodes: int = 0
         
-        #TODO: handle contents array
         if contents is not None:
             for c in contents:
                 self.insert(c)
@@ -88,7 +87,10 @@ class BinarySearchTree:
         pass
 
     def is_empty(self) -> bool:
-        return False
+        return self.num_nodes == 0
+    
+    def sum(self) -> int:
+        return 0
     
     def inorder_traversal(self) -> list[int]:
         return []
