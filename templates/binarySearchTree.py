@@ -1,5 +1,9 @@
 from dataclasses import dataclass, field
+from logging import raiseExceptions
+from optparse import Option
 from typing import Optional
+
+from pkg_resources import non_empty_lines
 
 @dataclass
 class BSTNode:
@@ -81,7 +85,17 @@ class BinarySearchTree:
         pass
 
     def find_min(self) -> Optional[int]:
-        pass
+        if self.num_nodes == 0 or self.root is None:
+            raise ValueError("Empty BST does not have any min")
+        
+        def __find_min(curr: BSTNode) -> Optional[int]:
+            curr_node: Optional['BSTNode'] = curr
+            while (curr_node.left is not None):
+                curr_node = curr_node.left
+            return curr_node.value 
+        
+        return __find_min(self.root)
+        
 
     def find_max(self) -> Optional[int]:
         pass
@@ -90,12 +104,21 @@ class BinarySearchTree:
         return self.num_nodes == 0
     
     def sum(self) -> int:
+        """Calculates the integer sum of all values in the tree
+
+        Returns:
+            int: sum of all nodes in the BST
+        """
+        if self.num_nodes == 0:
+            return 0
+        
         def __sum(curr_node: Optional['BSTNode']) -> int:
             if curr_node is None:
                 return 0
             left_sum: int = __sum(curr_node.left)
             right_sum: int = __sum(curr_node.right)
             return curr_node.value + left_sum + right_sum
+        
         return __sum(self.root)
             
     
