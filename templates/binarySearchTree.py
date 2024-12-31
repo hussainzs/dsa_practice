@@ -14,6 +14,9 @@ class BinarySearchTree:
         self.num_nodes: int = 0
         
         #TODO: handle contents array
+        if contents is not None:
+            for c in contents:
+                self.insert(c)
 
     def insert(self, val: int) -> BSTNode:
         """Inserts a integer into BST. Increments the num_nodes as well
