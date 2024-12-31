@@ -1,5 +1,6 @@
 from dataclasses import dataclass, field
 from logging import raiseExceptions
+from multiprocessing import Value
 from optparse import Option
 from typing import Optional
 
@@ -84,7 +85,7 @@ class BinarySearchTree:
     def delete(self, val: int) -> None:
         pass
 
-    def find_min(self) -> Optional[int]:
+    def find_min(self) -> int:
         """Finds the min value of the BST
 
         Raises:
@@ -93,7 +94,7 @@ class BinarySearchTree:
         Returns:
             int: Minimum value of the BST
         """
-        if self.num_nodes == 0 or self.root is None:
+        if self.root is None:
             raise ValueError("Empty BST does not have any min")
         
         def __find_min(curr: BSTNode) -> int:
@@ -105,8 +106,25 @@ class BinarySearchTree:
         return __find_min(self.root)
         
 
-    def find_max(self) -> Optional[int]:
-        pass
+    def find_max(self) -> int:
+        """Finds the maximum integer value in the BST
+
+        Raises:
+            ValueError: if Tree is empty
+
+        Returns:
+            int: maximum value in the BST
+        """
+        if self.root is None:
+            raise ValueError("Empty BST does not have any max")
+        
+        def __find_max(node: BSTNode) -> int:
+            curr_node: BSTNode = node
+            while (curr_node.right is not None):
+                curr_node = curr_node.right
+            return curr_node.value
+        
+        return __find_max(self.root)
 
     def is_empty(self) -> bool:
         return self.num_nodes == 0
