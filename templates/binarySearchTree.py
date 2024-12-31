@@ -85,11 +85,19 @@ class BinarySearchTree:
         pass
 
     def find_min(self) -> Optional[int]:
+        """Finds the min value of the BST
+
+        Raises:
+            ValueError: If BST is Empty 
+
+        Returns:
+            int: Minimum value of the BST
+        """
         if self.num_nodes == 0 or self.root is None:
             raise ValueError("Empty BST does not have any min")
         
-        def __find_min(curr: BSTNode) -> Optional[int]:
-            curr_node: Optional['BSTNode'] = curr
+        def __find_min(curr: BSTNode) -> int:
+            curr_node: BSTNode = curr
             while (curr_node.left is not None):
                 curr_node = curr_node.left
             return curr_node.value 
