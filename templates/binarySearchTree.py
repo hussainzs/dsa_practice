@@ -11,11 +11,12 @@ class BSTNode:
 class BinarySearchTree:
     def __init__(self, contents: list[int] | None = None) -> None:
         self.root: Optional[BSTNode] = None
+        self.num_nodes: int = 0
         
         #TODO: handle contents array
 
     def insert(self, val: int) -> BSTNode:
-        """Inserts a integer into BST. 
+        """Inserts a integer into BST. Increments the num_nodes as well
 
         Args:
             val (int): integer to be inserted
@@ -33,6 +34,7 @@ class BinarySearchTree:
         def __insert_recursive(curr: Optional['BSTNode'], val: int) -> BSTNode:
             # Base Case:
             if curr is None:
+                self.num_nodes += 1
                 return BSTNode(value=val, right=None, left=None)
             if val >= curr.value:
                 curr.right = __insert_recursive(curr.right, val)
@@ -46,7 +48,19 @@ class BinarySearchTree:
             
 
     def search(self, val: int) -> Optional[BSTNode]:
-        pass
+        if self.num_nodes == 0:
+            return None
+        def __search_recursive(curr: Optional['BSTNode']) -> Optional[BSTNode]:
+            if curr is None:
+                return None
+            elif curr.value == val:
+                return curr
+            elif curr.value >= val:
+                return __search_recursive(curr.right)
+            else:
+                return __search_recursive(curr.left)
+        return __search_recursive(self.root)
+        
 
     def delete(self, val: int) -> None:
         pass
