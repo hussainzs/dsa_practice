@@ -220,44 +220,65 @@ class BinarySearchTree:
         __postorder(self.root) 
         return result
     
-    def delete(self, val: int) -> Optional['BSTNode']:
-        if val is None:
-            raise TypeError("Can not delete Null values")
-        if self.is_empty():
-            return None # nothing to delete in an empty tree
-        
-        def __delete(node: Optional['BSTNode']) -> Optional['BSTNode']:
-            if node is None:
-                return None
-            if node.value < val:
-                node.right = __delete(node.right)
-            elif node.value > val:
-                node.left =  __delete(node.left)
-            else:
-                # node.value == val so we want to delete this node
-                # Case 1: node's left or right child are none
-                if node.left is None: 
-                    return node.right 
-                elif node.right is None:
-                    return node.left
-                else:
-                    # Case 2: node has both left and right children so we find minimum on the right to replace it
-                    successor_parent: BSTNode = node
-                    successor: BSTNode = node.right
-                    while successor.left is not None:
-                        successor_parent = successor
-                        successor = successor.left
-                    node.value = successor.value  # Replace node's value with successor's value
+def delete(self, val: int) -> Optional['BSTNode']:
+    """
+    Deletes a node with the given value from the binary search tree.
+    This approach uses a mix of iterative and recursive approach.
+    Args:
+        val (int): The value of the node to be deleted.
+    Returns:
+        Optional['BSTNode']: The root of the modified tree after deletion, or None if the tree is empty.
+    Raises:
+        TypeError: If the value to be deleted is None.
+    The deletion process involves three main cases:
+    1. The node to be deleted has no children (it is a leaf node).
+    2. The node to be deleted has one child.
+    3. The node to be deleted has two children. In this case, the node's value is replaced with its
+       inorder successor's value, and the inorder successor is then deleted.
+    The function uses a helper function `__delete` to recursively find and delete the node.
+    """
+    if val is None:
+        raise TypeError("Can not delete Null values")
+    if self.is_empty():
+        return None  # Nothing to delete in an empty tree
 
-                    # Delete the inorder successor
-                    # an alternative approach here will be to do this (change the method signature for this)
-                    # node.right = __delete(node.right, successor.value)
-                    if successor_parent.left == successor:
-                        successor_parent.left = successor.right
-                    else:
-                        # successor_parent.right == successor (this only happens when successor is the immediate right child of the node we wanna delete)
-                        successor_parent.right = successor.right
-            return node
-        self.root = __delete(self.root)
-        return self.root
+    def __delete(node: Optional['BSTNode']) -> Optional['BSTNode']:
+        if node is None:
+            return None  # Base case: If the node is None, nothing can be deleted
+        if node.value < val:
+            # in other words: If the value to be deleted is greater than the current node's value,
+            # traverse the right subtree
+            node.right = __delete(node.right)
+        elif node.value > val:
+            # If the value to be deleted is less than the current node's value,
+            # traverse the left subtree
+            node.left = __delete(node.left)
+        else:
+            # Node to be deleted is found
+            # Case 1: Node has no left child (this covers the scenario where both children are none)
+            if node.left is None:
+                return node.right  # Replace node with its right child
+            # Case 2: Node has no right child
+            elif node.right is None:
+                return node.left  # Replace node with its left child
+            else:
+                # Case 3: Node has two children
+                # Find the inorder successor (smallest/minimum node in the right subtree)
+                successor_parent: BSTNode = node # this will help us delete the successor manually without recursive call
+                successor: BSTNode = node.right
+                while successor.left is not None: # keep exploring left to find min value 
+                    successor_parent = successor
+                    successor = successor.left
+                node.value = successor.value # Replace the node's value with the successor's value [deletes the node]
+
+                # Delete the inorder successor
+                if successor_parent.left == successor: 
+                    successor_parent.left = successor.right
+                else:
+                    # This case happens when the successor is the immediate right child of the node to be deleted [i.e. successor_parent is the node we chnged the value of]
+                    successor_parent.right = successor.right
+        return node
+
+    self.root = __delete(self.root)
+    return self.root
             
