@@ -194,8 +194,16 @@ class BinarySearchTree:
         __inorder(self.root) 
         return result
 
-    # left -> right -> root
+    
     def postorder_traversal(self) -> list[int]:
+        """Performs a post-order traversal (Left -> Right -> Root) of the BST and returns a list of values. Children are traversed first
+
+        Raises:
+            ValueError: If BST is empty
+
+        Returns:
+            list[int]: A list of node values in post-order
+        """
         if self.root is None:
             raise ValueError("Can not traverse an Empty BST")
         
