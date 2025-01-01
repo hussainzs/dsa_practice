@@ -224,6 +224,8 @@ def delete(self, val: int) -> Optional['BSTNode']:
     """
     Deletes a node with the given value from the binary search tree.
     This approach uses a mix of iterative and recursive approach.
+    Check the code comments to see the usual purely recursive approach. 
+    
     Args:
         val (int): The value of the node to be deleted.
     Returns:
@@ -272,6 +274,8 @@ def delete(self, val: int) -> Optional['BSTNode']:
                 node.value = successor.value # Replace the node's value with the successor's value [deletes the node]
 
                 # Delete the inorder successor
+                # --> an alternative approach here will be to use recursion (change the method signature for this)
+                # node.right = __delete(node.right, successor.value)
                 if successor_parent.left == successor: 
                     successor_parent.left = successor.right
                 else:
