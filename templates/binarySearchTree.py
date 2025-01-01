@@ -122,7 +122,12 @@ class BinarySearchTree:
         return __find_max(self.root)
 
     def is_empty(self) -> bool:
-        return self.num_nodes == 0
+        """Check if the BST is empty (no nodes)
+
+        Returns:
+            bool: True if BST is empty and False otherwise
+        """
+        return self.num_nodes == 0 or self.root is None
     
     def sum(self) -> int:
         """Calculates the integer sum of all values in the tree
