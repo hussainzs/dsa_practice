@@ -1,6 +1,8 @@
 from dataclasses import dataclass, field
 from typing import Optional
 
+from networkx import is_empty
+
 @dataclass
 class BSTNode:
     value: int
@@ -62,7 +64,7 @@ class BinarySearchTree:
         if val is None:
             raise TypeError("Can not search for None in BST")
         
-        if self.num_nodes == 0:
+        if self.is_empty():
             return None # there is nothing to search in an empty BST
         
         def __search_recursive(curr: Optional['BSTNode']) -> Optional[BSTNode]:
@@ -75,10 +77,6 @@ class BinarySearchTree:
             else:
                 return __search_recursive(curr.left) # explore left subtree
         return __search_recursive(self.root)
-        
-
-    def delete(self, val: int) -> None:
-        pass
 
     def find_min(self) -> int:
         """Finds the min value of the BST
@@ -221,3 +219,45 @@ class BinarySearchTree:
                 
         __postorder(self.root) 
         return result
+    
+    def delete(self, val: int) -> Optional['BSTNode']:
+        if val is None:
+            raise TypeError("Can not delete Null values")
+        if self.is_empty():
+            return None # nothing to delete in an empty tree
+        
+        def __delete(node: Optional['BSTNode']) -> Optional['BSTNode']:
+            if node is None:
+                return None
+            if node.value < val:
+                node.right = __delete(node.right)
+            elif node.value > val:
+                node.left =  __delete(node.left)
+            else:
+                # node.value == val so we want to delete this node
+                # Case 1: node's left or right child are none
+                if node.left is None: 
+                    return node.right 
+                elif node.right is None:
+                    return node.left
+                else:
+                    # Case 2: node has both left and right children so we find minimum on the right to replace it
+                    successor_parent: BSTNode = node
+                    successor: BSTNode = node.right
+                    while successor.left is not None:
+                        successor_parent = successor
+                        successor = successor.left
+                    node.value = successor.value  # Replace node's value with successor's value
+
+                    # Delete the inorder successor
+                    # an alternative approach here will be to do this (change the method signature for this)
+                    # node.right = __delete(node.right, successor.value)
+                    if successor_parent.left == successor:
+                        successor_parent.left = successor.right
+                    else:
+                        # successor_parent.right == successor (this only happens when successor is the immediate right child of the node we wanna delete)
+                        successor_parent.right = successor.right
+            return node
+        self.root = __delete(self.root)
+        return self.root
+            
