@@ -165,7 +165,34 @@ class BinarySearchTree:
         return __height(self.root)
         
     def inorder_traversal(self) -> list[int]:
-        return []
+        """
+        Performs an in-order traversal (Left -> Root -> Right) of the BST and returns a list of node values in ascending order.
+
+        Raises:
+            ValueError: If the BST is empty.
+
+        Returns:
+            list[int]: A list of node values in ascending order.
+
+        Helpful for:
+            - Generating a sorted list of the node values.
+            - Checking if a tree is a BST by ensuring the in-order traversal produces a sorted sequence.
+            - Finding the k-th smallest element in the BST.
+            - Performing range queries to find all elements within a given range [low, high].
+            - Converting the BST to a sorted doubly linked list.
+        """
+        if self.root is None:
+            raise ValueError("Can not traverse an Empty BST")
+        
+        result: list[int] = []
+        def __inorder(node: Optional['BSTNode']) -> None:
+            if node is not None:
+                __inorder(node.left) # ensures that all nodes with values less than the current node are processed first. 
+                result.append(node.value)
+                __inorder(node.right) # ensures that all nodes with values greater than the current node are processed last.
+                
+        __inorder(self.root) 
+        return result
 
     def preorder_traversal(self) -> list[int]:
         return []
