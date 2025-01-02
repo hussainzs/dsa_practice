@@ -221,6 +221,11 @@ class BinarySearchTree:
         return result
     
     def balance(self) -> BSTNode:
+        """Balances the BST where the height of the left and right subtrees of any node differ by no more than one.
+        
+        Returns:
+            BSTNode: root of balanced tree
+        """
         ascending: list[int] = self.inorder_traversal()
         
         # function below assumes len(list) > 0
@@ -306,5 +311,6 @@ class BinarySearchTree:
             return node
 
         self.root = __delete(self.root)
+        self.num_nodes -= 1 # decrease the number of nodes
         return self.root
             
