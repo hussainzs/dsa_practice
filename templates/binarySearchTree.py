@@ -1,9 +1,6 @@
 from dataclasses import dataclass, field
 from typing import Optional
 
-from networkx import is_empty
-from pkg_resources import non_empty_lines
-
 @dataclass
 class BSTNode:
     value: int
