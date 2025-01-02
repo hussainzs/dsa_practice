@@ -312,6 +312,14 @@ class BinarySearchTree:
         return self.root
     
     def is_balanced(self) -> bool:
+        """Checks the height of the left and right subtrees of each node and ensures that the difference in height is no more than one.
+
+        Raises:
+            ValueError: If BST is empty
+
+        Returns:
+            bool: True if balanced and False otherwise
+        """
         if self.is_empty():
             raise ValueError("Empty BST can not be checked for balance")
         # TODO: complete
