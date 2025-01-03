@@ -1,8 +1,5 @@
 from dataclasses import dataclass, field
-from multiprocessing.util import is_abstract_socket_namespace
 from typing import Optional
-
-from pkg_resources import non_empty_lines
 
 @dataclass
 class BSTNode:
