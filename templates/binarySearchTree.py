@@ -215,7 +215,6 @@ class BinarySearchTree:
         Calculate the height of the BST.
         The height of a binary search tree is the number of edges 
         on the longest path from the root node to a leaf node. 
-        An empty tree has a height of -1 
         
         Returns:
             int: The height of the tree. Returns -1 if the tree is empty.
@@ -225,7 +224,7 @@ class BinarySearchTree:
         
         def __height(node: BSTNode) -> int:
             if node is None:
-                return -1
+                return 0
             left_height: int = __height(node.left) if node.left is not None else 0
             right_height: int = __height(node.right) if node.right is not None else 0
             return 1 + max(left_height, right_height)
@@ -322,6 +321,5 @@ class BinarySearchTree:
         """
         if self.is_empty():
             raise ValueError("Empty BST can not be checked for balance")
-        # TODO: complete
-        return False
+        def 
             
