@@ -289,8 +289,11 @@ class BinarySearchTree:
         
         Returns:
             BSTNode: root of balanced tree
-        """
-        ascending: list[int] = self.inorder_traversal()
+        """   
+        ascending: list[int] = self.inorder_traversal() # get the ascending list of values for the tree
+        if self.is_balanced(): # if BST is already balanced we just return the current root
+            assert self.root is not None
+            return self.root
         
         # recursive function below assumes len(list) > 0
         def __balance_bst(ascending_values: list[int]) -> BSTNode:
