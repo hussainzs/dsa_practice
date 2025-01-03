@@ -1,4 +1,5 @@
 from dataclasses import dataclass, field
+from multiprocessing.util import is_abstract_socket_namespace
 from typing import Optional
 
 from pkg_resources import non_empty_lines
@@ -323,15 +324,22 @@ class BinarySearchTree:
         """
         if self.is_empty():
             raise ValueError("Empty BST can not be checked for balance")
-        def __balance(node: Optional['BSTNode']) -> int:
+        
+        def __check_balance(node: Optional['BSTNode']) -> int:
             if node is None:
                 return 0
-            left_height: int = __get_height(node.left)
-            right_height: int = __get_height(node.right)
-            height_diff: int = abs(left_height - right_height)
             
-        def __get_height(node: Optional['BSTNode']) -> int:
-            if node is None:
-                return 0
-            return 1 + max(__get_height(node.left), __get_height(node.right))
+            left_height: int = __check_balance(node.left)
+            if left_height == -1: return -1
+            
+            right_height: int = __check_balance(node.right)
+            if right_height == -1: return -1
+            
+            height_diff: int = abs(left_height - right_height)
+            if height_diff > 1:
+                return -1
+            
+            return 1 + max(left_height, right_height) # calculates the height
+        
+        return __check_balance(self.root) != -1
             
