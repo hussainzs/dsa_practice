@@ -1,6 +1,8 @@
 from dataclasses import dataclass, field
 from typing import Optional
 
+from pkg_resources import non_empty_lines
+
 @dataclass
 class BSTNode:
     value: int
@@ -321,5 +323,15 @@ class BinarySearchTree:
         """
         if self.is_empty():
             raise ValueError("Empty BST can not be checked for balance")
-        def 
+        def __balance(node: Optional['BSTNode']) -> int:
+            if node is None:
+                return 0
+            left_height: int = __get_height(node.left)
+            right_height: int = __get_height(node.right)
+            height_diff: int = abs(left_height - right_height)
+            
+        def __get_height(node: Optional['BSTNode']) -> int:
+            if node is None:
+                return 0
+            return 1 + max(__get_height(node.left), __get_height(node.right))
             
