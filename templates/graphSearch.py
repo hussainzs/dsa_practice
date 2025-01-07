@@ -10,8 +10,8 @@ def breadth_first_search(graph: list[list[int]], start: int) -> list[list[int]]:
     Perform a breadth-first search (BFS) on the graph starting from the given node.
 
     Args:
-        graph (list[list[int]]): list of list where the index of the inner list represents the node and content represents its neighbors. 
-        start (int): The starting node for the BFS.
+        graph (List[List[int]]): Adjacency list representation of graph
+        where graph[i] contains neighbors of vertex i
 
     Returns:
         list[list[int]]: A list of lists, where each inner list contains the values of the nodes 
@@ -44,10 +44,12 @@ def depth_first_search(graph: list[list[int]]) -> list[list[int]]:
     If graph is connected then there will be one inner list containing all of the nodes traversed in depth first fashion.
 
     Args:
-        graph (list[list[int]]): list of list where the index of the inner list represents the node and content represents its neighbors. 
-
+        graph (List[List[int]]): Adjacency list representation of graph
+        where graph[i] contains neighbors of vertex i
+        
     Returns:
-        list[list[int]]: dfs trees in list of list representation
+        List[List[int]]: List of DFS trees where each inner list represents
+        vertices visited in DFS order starting from different components
     """
     stack: deque[int] = deque()
     global_visited: set[int] = set() 
