@@ -359,17 +359,19 @@ class BinarySearchTree:
          
         while len(Q) != 0:
             level_size: int = len(Q)
-            level_nodes: list[int] = []
+            current_level: list[int] = []
             
             for _ in range(level_size):
                 curr_parent: BSTNode = Q.popleft() # top element of the queue
-                level_nodes.append(curr_parent.value)
+                current_level.append(curr_parent.value)
                 
                 if curr_parent.left is not None:
                     Q.append(curr_parent.left)
+                    
                 if curr_parent.right is not None:
                     Q.append(curr_parent.right)
-            result.append(level_nodes)
+                    
+            result.append(current_level)
         
         return result
             
