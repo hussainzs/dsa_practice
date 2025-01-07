@@ -1,6 +1,7 @@
 
-class Graph:
-    pass
+"""
+graph = list[list[int]]
+"""
 
 def breath_first_search():
     pass

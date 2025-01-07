@@ -345,11 +345,17 @@ class BinarySearchTree:
         return __check_balance(self.root) != -1
     
     def bfs(self) -> list[list[int]]:
-        """Returns a list of list where each list at index contains the nodes of that level.
-        For example, list at index 0 contains all the nodes at level 0.
+        """
+        Perform a breadth-first search (BFS) on the binary search tree.
+
+        This method returns a list of lists, where each inner list contains the values of the nodes 
+        at a specific level of the tree. The list at index 0 contains the values of the nodes at 
+        level 0 (the root level), the list at index 1 contains the values of the nodes at level 1, 
+        and so on.
 
         Returns:
-            list[list[int]]: list of list of nodes at each level
+            list[list[int]]: A list of lists, where each inner list contains the values of the nodes 
+            at a specific level of the tree. If the tree is empty, an empty list is returned.
         """
         if self.root is None:
             return []
