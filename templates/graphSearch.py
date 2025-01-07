@@ -5,28 +5,30 @@ graph = list[list[int]] adjacency list
 i.e. = [[1,2,3], [5,6], ...]
 """
 
-def breath_first_search(graph: list[list[int]], start: int) -> list[int]:
+def breadth_first_search(graph: list[list[int]], start: int) -> list[int]:
     """
     Perform a breadth-first search (BFS) on the graph starting from the given node.
 
     Args:
-        graph (dict[int, list[int]]): A dictionary where the key represents the node and the value represents its neighbors.
+        graph (list[list[int]]): list of list where the index of the inner list represents the node and content represents its neighbors. 
         start (int): The starting node for the BFS.
 
     Returns:
-        list[int]: A list of nodes in the order they were discovered during the BFS.
+        list[int]: A list of nodes explored in breadth first fashion
     """
     Q: deque[int] = deque([start])
-    discovered: list[int] = []
+    discovered: set[int] = set([start])
+    result: list[int] = []
     
     while len(Q) != 0:
         curr_parent: int = Q.popleft() # popLeft gets the node at the front of the queue
-        discovered.append(curr_parent)
+        result.append(curr_parent)
         for neighbor in (graph[curr_parent]):
             if neighbor not in discovered:
                 Q.append(neighbor)
+                discovered.add(neighbor)
                 
-    return discovered
+    return result
     
     
 def depth_first_search(graph: list[list[int]]) -> list[list[int]]:
