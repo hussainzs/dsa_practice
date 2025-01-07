@@ -7,15 +7,15 @@ i.e. = [[1,2,3], [5,6], ...]
 
 def breadth_first_search(graph: list[list[int]], start: int) -> list[list[int]]:
     """
-    Perform a breadth-first search (BFS) on the graph starting from the given node.
+    Performs BFS on a graph and returns nodes organized by levels.
 
     Args:
         graph (List[List[int]]): Adjacency list representation of graph
         where graph[i] contains neighbors of vertex i
-
+    
     Returns:
-        list[list[int]]: A list of lists, where each inner list contains the values of the nodes 
-            at a specific level of the tree. If the tree is empty, an empty list is returned.
+        List[List[int]]: A list of lists, where each inner list contains nodes 
+        at a specific level of the tree. If the tree is empty, an empty list is returned.
     """
     Q: deque[int] = deque([start])
     discovered: set[int] = set([start])
@@ -51,26 +51,26 @@ def depth_first_search(graph: list[list[int]]) -> list[list[int]]:
         List[List[int]]: List of DFS trees where each inner list represents
         vertices visited in DFS order starting from different components
     """
-    stack: deque[int] = deque()
-    global_visited: set[int] = set() 
+    global_visited: set[int] = set()
     result: list[list[int]] = []
     
-    for i in range(len(graph)): # we need this extra for loop beacuse graph maybe disconnected and we need to jump to vertices unreachable from others 
+    for i in range(len(graph)):  # Handle disconnected components
         if i not in global_visited:
-            stack.append(i) # this will be root of this dfs tree
-            current_tree: list[int] = [] # start a new tree 
+            stack: deque[int] = deque([i])  # Initialize with root of this new tree
+            global_visited.add(i)
+            current_tree: list[int] = []
             
             while len(stack) != 0:
                 current_node: int = stack.pop()
-                if current_node not in global_visited:
-                    current_tree.append(current_node)
-                    global_visited.add(current_node)
-                    # Add unvisited neighbors only 
-                    for neighbor in reversed(graph[current_node]):
-                        if neighbor not in global_visited: # small optimizion for stack space by not adding unnecessary seen vertices
-                            stack.append(neighbor)
-                    
-            result.append(current_tree) # add the tree we have built into result
+                current_tree.append(current_node)  
+                
+                # Add unvisited neighbors
+                for neighbor in reversed(graph[current_node]):
+                    if neighbor not in global_visited:
+                        stack.append(neighbor)
+                        global_visited.add(neighbor)  # Mark as visited when adding to stack
+            
+            result.append(current_tree)
     
     return result
     
