@@ -1,5 +1,6 @@
 from dataclasses import dataclass, field
 from typing import Optional
+from collections import deque
 
 @dataclass
 class BSTNode:
@@ -342,4 +343,37 @@ class BinarySearchTree:
             return 1 + max(left_height, right_height) # calculates the height
         
         return __check_balance(self.root) != -1
+    
+    def bfs(self) -> list[list[int]]:
+        """Returns a list of list where each list at index contains the nodes of that level.
+        For example, list at index 0 contains all the nodes at level 0.
+
+        Returns:
+            list[list[int]]: list of list of nodes at each level
+        """
+        if self.root is None:
+            return []
+        
+        Q: deque['BSTNode'] = deque([self.root])
+        result: list[list[int]] = []
+         
+        while len(Q) != 0:
+            level_size: int = len(Q)
+            level_nodes: list[int] = []
+            
+            for _ in range(level_size):
+                curr_parent: BSTNode = Q.popleft() # top element of the queue
+                level_nodes.append(curr_parent.value)
+                
+                if curr_parent.left is not None:
+                    Q.append(curr_parent.left)
+                if curr_parent.right is not None:
+                    Q.append(curr_parent.right)
+            result.append(level_nodes)
+        
+        return result
+            
+            
+            
+        
             
