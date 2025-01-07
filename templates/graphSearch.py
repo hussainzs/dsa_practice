@@ -5,7 +5,7 @@ graph = list[list[int]] adjacency list
 i.e. = [[1,2,3], [5,6], ...]
 """
 
-def breadth_first_search(graph: list[list[int]], start: int) -> list[int]:
+def breadth_first_search(graph: list[list[int]], start: int) -> list[list[int]]:
     """
     Perform a breadth-first search (BFS) on the graph starting from the given node.
 
@@ -14,20 +14,27 @@ def breadth_first_search(graph: list[list[int]], start: int) -> list[int]:
         start (int): The starting node for the BFS.
 
     Returns:
-        list[int]: A list of nodes explored in breadth first fashion
+        list[list[int]]: A list of lists, where each inner list contains the values of the nodes 
+            at a specific level of the tree. If the tree is empty, an empty list is returned.
     """
     Q: deque[int] = deque([start])
     discovered: set[int] = set([start])
-    result: list[int] = []
+    result: list[list[int]] = []
     
     while len(Q) != 0:
-        curr_parent: int = Q.popleft() # popLeft gets the node at the front of the queue
-        result.append(curr_parent)
-        for neighbor in (graph[curr_parent]):
-            if neighbor not in discovered:
-                Q.append(neighbor)
-                discovered.add(neighbor)
-                
+        level_size: int = len(Q)
+        current_level: list[int] = []
+        
+        for _ in range(level_size): # keep popping the entire queue until we get all of this level
+            curr_parent: int = Q.popleft() # popLeft gets the node at the front of the queue
+            current_level.append(curr_parent)
+            
+            for neighbor in (graph[curr_parent]):
+                if neighbor not in discovered:
+                    Q.append(neighbor)
+                    discovered.add(neighbor)
+        result.append(current_level) # add the current level into the result
+    
     return result
     
     
