@@ -49,7 +49,7 @@ class DoublyLinkedList:
         """
         if index is None:
             raise IndexError("Index can not be None")
-        if index < 0 or index > self._size - 1:
+        if index < 0 or index > self._size - 1: # remember size - 1 is the highest valid index
             raise IndexError(f"Index out of bounds, max valid index is {self._size - 1}")
         
         current_node: Optional["Node"] = self._head.next # get first valid node (maybe none if list empty)
