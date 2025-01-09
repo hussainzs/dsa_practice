@@ -86,16 +86,3 @@ def topological_sort(graph: list[list[int]]) -> list[int]:
         List[int]: A list of vertices in topologically sorted order.
     """
     return []
-
-def dijkstra(graph: list[list[tuple[int, int]]], start: int) -> list[int]:
-    """
-    Performs Dijkstra's algorithm to find the shortest paths from a start vertex to all other vertices.
-
-    Args:
-        graph (List[List[Tuple[int, int]]]): Adjacency list representation of graph
-        where graph[i] contains tuples (neighbor, weight) for vertex i
-
-    Returns:
-        List[int]: A list of shortest distances from the start vertex to each vertex.
-    """
-    return []
