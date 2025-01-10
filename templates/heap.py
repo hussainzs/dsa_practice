@@ -3,6 +3,7 @@
    Min-Heap: In a min-heap, for any given node I, the value of I is less than or equal to the values of its children. 
    The minimum element is at the root. 
 """
+
 class Heap:
     def __init__(self):
         # Initialize the heap
@@ -10,7 +11,8 @@ class Heap:
 
     def insert(self, element):
         # Insert an element into the heap
-        pass
+        self.heap.append(element)
+        self.heapify_up(len(self.heap) - 1)
 
     def delete(self):
         # Delete the root element from the heap
