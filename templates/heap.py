@@ -26,15 +26,33 @@ class Heap:
         # Initialize the heap storage
         self.heap: list[int] = []
         
-        # TODO: add contents 
+        if contents is not None:
+            self.build_heap(contents) 
         
     def insert(self, element: int) -> None:
         if element is None:
             raise ValueError("Can not insert None into heap")
         
         self.heap.append(element)
-        self._heapify_up(len(self.heap) - 1) # heapify up the element we just inserted
+        self._heapify_up(self.heapSize() - 1) # heapify up the element we just inserted
         
+    def extract_min(self) -> int | None:
+        """Extracts and returns the minimum element from the heap"""
+        if self.heapSize() == 0:
+            return None
+        
+        # store min to return later
+        min: int = self.heap[0]
+        
+        # step 1: place the last element in the heap on the head
+        self.heap[0] = self.heap[self.heapSize() - 1]
+        # step 2: delete the last element
+        self.heap.pop()
+        # step 3: heapify down
+        self._heapify_down(0)
+        
+        return min # return the stored min
+
     def _heapify_up(self, index: int) -> None:
         while self._hasParent(index):
             parentIndex = self._getParentIndex(index)
@@ -55,14 +73,26 @@ class Heap:
                 minChildIndex = self._getLeftChildIndex(index)
             
             if self.heap[minChildIndex] < self.heap[index]:
-                # if child is smaller bubble down (larger values go down, smaller goes up)
+                # if child is smaller then bubble down (larger values go down, smaller goes up)
                 self._swap(index, minChildIndex)
                 index = minChildIndex # and update index for next loop iteration
             else:
                 # children are greater or equal so we can't bubble down anymore (current value is smaller so can't go down)
                 break 
-                
     
+    def build_heap(self, contents: list[int]) -> list[int]:
+        """Builds in O(n) because we don't run heapify on the leaves"""
+        if len(contents) == 0:
+            raise ValueError("Can not build heap from empty array")
+        
+        self.heap = contents[:]
+        lastParentIndex: int = self.heapSize() // 2 - 1
+        
+        for i in range(lastParentIndex, -1, -1):
+            self._heapify_down(i)
+            
+        return self.heap
+            
     ### Define helper methods
     def getParent(self, index: int) -> int:
         if not self._hasParent(index) and not self._isValidIndex(index):
@@ -82,6 +112,12 @@ class Heap:
         rightChildIndex: int = self._getRightChildIndex(index)
         return self.heap[rightChildIndex]
     
+    def heapSize(self) -> int:
+        return len(self.heap)
+    
+    def is_empty(self) -> bool:
+        return self.heapSize() == 0
+    
     ### Internal Methods
     def _getLeftChildIndex(self, index: int) -> int:
         return 2 * index + 1
@@ -98,14 +134,14 @@ class Heap:
     
     def _hasLeftChild(self, index: int) -> bool:
         # left child index has to be less than the size
-        return self._getLeftChildIndex(index) < len(self.heap)
+        return self._getLeftChildIndex(index) < self.heapSize()
     
     def _hasRightChild(self, index: int) -> bool:
         # right child index has to be less than the size
-        return self._getRightChildIndex(index) < len(self.heap)
+        return self._getRightChildIndex(index) < self.heapSize()
     
     def _isValidIndex(self, index: int) -> bool:
-        return index < len(self.heap) and index >= 0
+        return index < self.heapSize() and index >= 0
     
     def _swap(self, index1: int, index2: int) -> None:
         """Swaps the content of two indices inside the heap"""
