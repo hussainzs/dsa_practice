@@ -32,11 +32,18 @@ class Heap:
         if element is None:
             raise ValueError("Can not insert None into heap")
         
-        if element in self.heap:
-            # dont insert duplicates (check in O(n))
-            return
+        self.heap.append(element)
+        self._heapify_up(len(self.heap) - 1) # heapify up the element we just inserted
         
-        #TODO complete this method
+    def _heapify_up(self, index: int) -> None:
+        while self._hasParent(index):
+            parentIndex = self._getParentIndex(index)
+            # Swap and bubble up if parent is greater (for min heap the parent should be smaller than children)
+            if self.heap[parentIndex] > self.heap[index]:
+                self._swap(index, parentIndex)
+                index = parentIndex
+            else:
+                break
     
     def _heapify_down(self, index: int) -> None:
         """Places the given index element into the correct place in the heap by bubbling it DOWN!!"""
@@ -47,12 +54,13 @@ class Heap:
             else:
                 minChildIndex = self._getLeftChildIndex(index)
             
-            if self.heap[minChildIndex] > self.heap[index]:
-                break # children are smaller so we can't bubble down anymore
-            else:
-                # otherwise, swap with the smallest child
+            if self.heap[minChildIndex] < self.heap[index]:
+                # 
                 self._swap(index, minChildIndex)
                 index = minChildIndex # and update index for next loop iteration
+            else:
+                break # children are smaller so we can't bubble down anymore
+                
     
     ### Define helper methods
     def getParent(self, index: int) -> int:
@@ -84,19 +92,16 @@ class Heap:
         return floor((index - 1) / 2)
     
     def _hasParent(self, index: int) -> bool:
-        parentIndex: int = self._getParentIndex(index)
         # parent index has to be greater than 0
-        return parentIndex >= 0
+        return self._getParentIndex(index) >= 0
     
     def _hasLeftChild(self, index: int) -> bool:
-        leftChildIndex: int = self._getLeftChildIndex(index)
         # left child index has to be less than the size
-        return leftChildIndex < len(self.heap)
+        return self._getLeftChildIndex(index) < len(self.heap)
     
     def _hasRightChild(self, index: int) -> bool:
-        rightChildIndex: int = self._getRightChildIndex(index)
         # right child index has to be less than the size
-        return rightChildIndex < len(self.heap)
+        return self._getRightChildIndex(index) < len(self.heap)
     
     def _isValidIndex(self, index: int) -> bool:
         return index < len(self.heap) and index >= 0
