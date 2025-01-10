@@ -7,12 +7,12 @@
 class Heap:
     def __init__(self):
         # Initialize the heap
-        self.heap = []
+        self._heap = []
 
     def insert(self, element):
         # Insert an element into the heap
-        self.heap.append(element)
-        self.heapify_up(len(self.heap) - 1)
+        self._heap.append(element)
+        self.heapify_up(len(self._heap) - 1)
 
     def delete(self):
         # Delete the root element from the heap
@@ -28,18 +28,14 @@ class Heap:
 
     def get_min(self):
         # Get the minimum element (for min-heap)
-        if self.heap is None:
+        if self._heap is None:
             return None
-        return self.heap[0]
-
-    def get_max(self):
-        # Get the maximum element (for max-heap)
-        pass
+        return self._heap[0]
 
     def size(self):
         # Return the size of the heap
-        pass
+        return len(self._heap)
 
     def is_empty(self):
         # Check if the heap is empty
-        return len(self.heap) == 0
+        return len(self._heap) == 0
