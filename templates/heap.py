@@ -40,4 +40,4 @@ class Heap:
 
     def is_empty(self):
         # Check if the heap is empty
-        pass
+        return len(self.heap) == 0
