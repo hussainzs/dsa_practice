@@ -67,13 +67,15 @@ class Heap:
         """Places the given index element into the correct place in the heap by bubbling it DOWN!!"""
         # if there is no left child there is definitely no right child as we are simulating complete binary tree
         while self._hasLeftChild(index):
+            # check if right child exists and if its smaller than the left child
             if self._hasRightChild(index) and self.getRightChild(index) < self.getLeftChild(index):
                 minChildIndex = self._getRightChildIndex(index)
             else:
+                # otherwise we know left child exists for sure because of the while condition so set that as min
                 minChildIndex = self._getLeftChildIndex(index)
             
+            # if child is smaller then bubble down (larger values go down, smaller goes up)
             if self.heap[minChildIndex] < self.heap[index]:
-                # if child is smaller then bubble down (larger values go down, smaller goes up)
                 self._swap(index, minChildIndex)
                 index = minChildIndex # and update index for next loop iteration
             else:
@@ -85,9 +87,12 @@ class Heap:
         if len(contents) == 0:
             raise ValueError("Can not build heap from empty array")
         
-        self.heap = contents[:]
+        self.heap = contents[:] # copy over the contents to heap for now
+        
+        # calculate the last parent which is half way through - 1 for the index
         lastParentIndex: int = self.heapSize() // 2 - 1
         
+        # loop backwards from the last parent calling heapify on all
         for i in range(lastParentIndex, -1, -1):
             self._heapify_down(i)
             
@@ -97,20 +102,20 @@ class Heap:
     def getParent(self, index: int) -> int:
         if not self._hasParent(index) and not self._isValidIndex(index):
             raise ValueError(f"Parent does not exist for the index {index}")
-        parentIndex: int = self._getParentIndex(index)
-        return self.heap[parentIndex]
+        
+        return self.heap[self._getParentIndex(index)]
     
     def getLeftChild(self, index: int) -> int:
         if not self._hasLeftChild(index) and not self._isValidIndex(index):
             raise ValueError(f"Left Child does not exist for the index {index}")
-        leftChildIndex: int = self._getLeftChildIndex(index)
-        return self.heap[leftChildIndex]
+
+        return self.heap[self._getLeftChildIndex(index)]
     
     def getRightChild(self, index: int) -> int:
         if not self._hasRightChild(index) and not self._isValidIndex(index):
             raise ValueError(f"Right child does not exist for the index {index}")
-        rightChildIndex: int = self._getRightChildIndex(index)
-        return self.heap[rightChildIndex]
+
+        return self.heap[self._getRightChildIndex(index)]
     
     def heapSize(self) -> int:
         return len(self.heap)
@@ -146,3 +151,4 @@ class Heap:
     def _swap(self, index1: int, index2: int) -> None:
         """Swaps the content of two indices inside the heap"""
         self.heap[index1], self.heap[index2] = self.heap[index2], self.heap[index1] 
+        
