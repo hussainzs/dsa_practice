@@ -38,7 +38,7 @@ class Heap:
     def _heapify_up(self, index: int) -> None:
         while self._hasParent(index):
             parentIndex = self._getParentIndex(index)
-            # Swap and bubble up if parent is greater (for min heap the parent should be smaller than children)
+            # Swap and bubble up if parent is bigger (for min heap the parent should be smaller than children)
             if self.heap[parentIndex] > self.heap[index]:
                 self._swap(index, parentIndex)
                 index = parentIndex
@@ -55,11 +55,12 @@ class Heap:
                 minChildIndex = self._getLeftChildIndex(index)
             
             if self.heap[minChildIndex] < self.heap[index]:
-                # 
+                # if child is smaller bubble down (larger values go down, smaller goes up)
                 self._swap(index, minChildIndex)
                 index = minChildIndex # and update index for next loop iteration
             else:
-                break # children are smaller so we can't bubble down anymore
+                # children are greater or equal so we can't bubble down anymore (current value is smaller so can't go down)
+                break 
                 
     
     ### Define helper methods
