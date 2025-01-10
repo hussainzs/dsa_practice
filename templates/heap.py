@@ -28,6 +28,8 @@ class Heap:
 
     def get_min(self):
         # Get the minimum element (for min-heap)
+        if self.heap is None:
+            return None
         return self.heap[0]
 
     def get_max(self):
