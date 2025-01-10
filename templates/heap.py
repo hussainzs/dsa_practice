@@ -28,7 +28,7 @@ class Heap:
 
     def get_min(self):
         # Get the minimum element (for min-heap)
-        pass
+        return self.heap[0]
 
     def get_max(self):
         # Get the maximum element (for max-heap)
