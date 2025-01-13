@@ -76,6 +76,21 @@ def depth_first_search(graph: list[list[int]]) -> list[list[int]]:
 
 
 def calculate_indegree(edges_arr: list[tuple[int, int]]) -> list[int]:
+    """
+    You are given a graph with n nodes, where each node has an integer value from 0 to n - 1.
+    The graph is represented by a list of edges, where edges[i] = [u, v] is a directed edge from node u to node v. 
+    Write a function to calculate the indegree of each node in the graph.
+
+    Example
+    Input: edges = [(0, 1), (1, 2), (1, 3), (3, 2), (3, 4)] where n = 5
+    Output: [0, 1, 2, 1, 1]
+
+    Args:
+        edges_arr (list[tuple[int, int]]): list of edges
+
+    Returns:
+        list[int]: indegree if each node
+    """
     n = len(edges_arr)
     indegree: list[int] = [0 for _ in range(n)] # populate n zeros
     for src, dest in edges_arr:
