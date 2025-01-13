@@ -1,4 +1,5 @@
 from collections import deque
+from collections import defaultdict
 
 """
 graph = list[list[int]] adjacency list
@@ -75,7 +76,27 @@ def depth_first_search(graph: list[list[int]]) -> list[list[int]]:
     return result
 
 
-def calculate_indegree_from_edgeList(graph: list[tuple[int, int]]) -> list[int]:
+def convert_edgeList_to_adjList(edgeList: list[tuple[int, int]]) -> dict[int, list[int]]:
+    """Convert any edge list represnetation to adjList in O(E) time
+
+    Args:
+        edgeList (list[tuple[int, int]]): edge list for example: [(0, 1), (1, 2), (1, 3), (3, 2), (3, 4)]
+
+    Returns:
+        dict[int, list[int]]: adjacency representation for example: {0: [1], 1: [2, 3], 2: [], 3: [2, 4], 4: []}
+    """
+    # Initialize an adjacency list using defaultdict, which will automatically create an empty list for any new key
+    adjList: defaultdict[int, list[int]] = defaultdict(list)
+    
+    for src, dest in edgeList:
+        # Append the destination node to the list of neighbors for the source node
+        # If the source node does not exist in the adjacency list, defaultdict will create a new list for it and then append dest to it
+        adjList[src].append(dest)
+        
+    return adjList
+    
+
+def calculate_indegree_from_edgeList(edge_list: list[tuple[int, int]]) -> list[int]:
     """
     You are given a graph with n nodes, where each node has an integer value from 0 to n - 1.
     The graph is represented by a list of edges, where edges[i] = [u, v] is a directed edge from node u to node v. 
@@ -91,9 +112,9 @@ def calculate_indegree_from_edgeList(graph: list[tuple[int, int]]) -> list[int]:
     Returns:
         list[int]: indegree if each node
     """
-    n: int = max(max(u, v) for u, v in graph) + 1
+    n: int = max(max(u, v) for u, v in edge_list) + 1 # O(E) + O(E) = O(E) 
     indegree: list[int] = [0 for _ in range(n)] # populate n zeros
-    for src, dest in graph:
+    for src, dest in edge_list:
         indegree[dest] += 1
     return indegree
     
@@ -153,5 +174,9 @@ def topological_sort(graph: dict[int, list[int]] | list[tuple[int, int]]) -> lis
     else:
         raise TypeError("Input is not of the desired type")
         
-        
+    # add all indegree 0 to queue
+    Q: deque[int] = deque([])
+    for index, degree in enumerate(indegree):
+        if degree == 0:
+            Q.append(index)
     
