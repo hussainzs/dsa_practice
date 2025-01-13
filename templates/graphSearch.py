@@ -165,18 +165,35 @@ def topological_sort(graph: dict[int, list[int]] | list[tuple[int, int]]) -> lis
         5. For each neighbor of the node, decrement its indegree by 1. If the neighbor's indegree is now 0, add it to the queue.
     Return the topological order.
     '''
-    # claulcate indegree of each node
-    indegree: list[int] = []
-    if isinstance(graph, dict): # if we get adjacency list
-        indegree = calculate_indegree_from_adjList(graph)
-    elif isinstance(graph, list): # if we get edge list
-        indegree = calculate_indegree_from_edgeList(graph)
-    else:
-        raise TypeError("Input is not of the desired type")
+    topoOrder: list[int] = []
+    
+    # if input is edgelist convert to adjacency list
+    if isinstance(graph, list):
+        graph = convert_edgeList_to_adjList(graph)
+    
+    # find the indegree
+    indegree: list[int] = calculate_indegree_from_adjList(graph)
         
     # add all indegree 0 to queue
     Q: deque[int] = deque([])
     for index, degree in enumerate(indegree):
         if degree == 0:
-            Q.append(index)
+            Q.append(index) # here index is the node
     
+    while Q: # until Q is not empty
+        # deque first node and add it to topo order
+        sourceNode: int = Q.popleft()
+        topoOrder.append(sourceNode)
+        
+        # for each neighbor of this node decrement indegree by 1
+        for neighbor in graph[sourceNode]:
+            indegree[neighbor] -= 1
+            if indegree == 0:
+                # if indegree has become 1 then add to Queue
+                Q.append(neighbor)
+    
+    return topoOrder
+        
+        
+        
+        
