@@ -74,6 +74,22 @@ def depth_first_search(graph: list[list[int]]) -> list[list[int]]:
     
     return result
 
+
+def calculate_indegree(edges_arr: list[tuple[int, int]]) -> list[int]:
+    n = len(edges_arr)
+    indegree: list[int] = [0 for _ in range(n)] # populate n zeros
+    for src, dest in edges_arr:
+        indegree[dest] += 1
+    return indegree
+    
+
+# Naive Approach: O(v^2) find a source node O(n) this happens n times so O(n^2)
+# Optimized Approach: O(V + E) 👇
+'''
+We maintain the indegree of each node (initially O(n) to find all in-degrees but to maintain O(1)). 
+Each time we remove a node from the graph, we decrement the indegree of all of its outneighbors. 
+If the indegree of any of these nodes becomes 0, then we add it to our list.
+'''
 def topological_sort(graph: list[list[int]]) -> list[int]:
     """
     Performs topological sort on a directed acyclic graph (DAG).
