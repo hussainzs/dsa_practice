@@ -75,7 +75,7 @@ def depth_first_search(graph: list[list[int]]) -> list[list[int]]:
     return result
 
 
-def calculate_indegree(edges_arr: list[tuple[int, int]]) -> list[int]:
+def calculate_indegree_from_edgeList(edges_arr: list[tuple[int, int]]) -> list[int]:
     """
     You are given a graph with n nodes, where each node has an integer value from 0 to n - 1.
     The graph is represented by a list of edges, where edges[i] = [u, v] is a directed edge from node u to node v. 
@@ -91,12 +91,29 @@ def calculate_indegree(edges_arr: list[tuple[int, int]]) -> list[int]:
     Returns:
         list[int]: indegree if each node
     """
-    n = len(edges_arr)
+    n: int = len(edges_arr)
     indegree: list[int] = [0 for _ in range(n)] # populate n zeros
     for src, dest in edges_arr:
         indegree[dest] += 1
     return indegree
     
+
+def calculate_indegree_from_adjList(adj_list: dict[int, list[int]]) -> list[int]:
+    """ Calculate indegree of each node in adj list
+    Input: edges = {0: [1], 1: [2, 3], 2: [], 3: [2, 4], 4: []}
+    Output: [0, 1, 2, 1, 1]
+
+    Args:
+        adj_list (dict[int, list[int]]): adjacency list representation of the graph
+
+    Returns:
+        list[int]: indegree of each list
+    """
+    indegree: list[int] = [0 for _ in range(len(adj_list))]
+    for values in adj_list.values():
+        for v in values:
+            indegree[v] += 1
+    return indegree
 
 # Naive Approach: O(v^2) find a source node O(n) this happens n times so O(n^2)
 # Optimized Approach: O(V + E) 👇
