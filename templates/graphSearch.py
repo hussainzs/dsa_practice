@@ -16,8 +16,24 @@ def breadth_first_search(graph: dict[int, list[int]], start: int) -> list[int]:
     Returns:
         list[int]: Nodes traversed in BFS fashion.
     """
-
+    Q: deque[int] = deque([start])
+    visited: set[int] = {start}
+    result: list[int] = []
     
+    while Q: # until Q is not empty
+        current_node: int = Q.popleft() # pop the top in O(1)
+        result.append(current_node) # Add to result when processing
+        
+        # go through all the neighbors and add them to queue as well
+        neighbors: list[int] = graph[current_node]
+        for neighbor in neighbors:
+            # add only if we havent already visited otherwise we maybe be stuck in a loop
+            if neighbor not in visited:
+                visited.add(neighbor) # Mark visited when adding to queue
+                Q.append(neighbor)
+                
+    return result
+        
     
 def depth_first_search(graph: dict[int, list[int]]) -> list[list[int]]:
     """Uses an Iterative approach to save stack space. 
