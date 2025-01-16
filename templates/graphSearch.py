@@ -6,7 +6,7 @@ graph = adjacency list: dict[int, list[int]]
 {0: [1], 1: [2, 3], 2: [], 3: [2, 4], 4: []}
 """
 
-def breadth_first_search(graph: dict[int, list[int]], start: int) -> list[int]:
+def bfs_traversal(graph: dict[int, list[int]], start: int) -> list[int]:
     """Returns List of nodes traversed in BFS fashion. 
 
     Args:
@@ -15,6 +15,9 @@ def breadth_first_search(graph: dict[int, list[int]], start: int) -> list[int]:
 
     Returns:
         list[int]: Nodes traversed in BFS fashion.
+    
+    Time Complexity: O(V + E) where V is number of vertices and E is number of edges
+    Space Complexity: O(V) for queue and visited set
     """
     Q: deque[int] = deque([start])
     visited: set[int] = {start}
@@ -33,6 +36,54 @@ def breadth_first_search(graph: dict[int, list[int]], start: int) -> list[int]:
                 Q.append(neighbor)
                 
     return result
+
+def bfs_levels(graph: dict[int, list[int]], start: int = 0) -> list[list[int]]:
+    """Performs level-order traversal of graph, grouping nodes by their distance from start.
+    
+    A level consists of all nodes that are the same distance from the start node.
+    Level 0 contains the start node, level 1 contains its immediate neighbors,
+    level 2 contains nodes that are two edges away, and so on.
+
+    Args:
+        graph (dict[int, list[int]]): Graph represented as adjacency list where
+            key is node and value is list of its neighbors
+        start (int, optional): Starting node for traversal. Defaults to 0.
+
+    Returns:
+        list[list[int]]: List of levels, where each level is a list of nodes
+            at the same distance from start node.
+
+    Example:
+        >>> graph = {0: [1, 2], 1: [0, 3], 2: [0, 3], 3: [1, 2]}
+        >>> bfs_levels(graph, 0)
+        [[0], [1, 2], [3]]
+
+    Time Complexity: O(V + E) where V is number of vertices and E is number of edges
+    Space Complexity: O(V) for queue and visited set
+    """
+    Q: deque[int] = deque([start])
+    discovered: set[int] = {start}
+    result: list[list[int]] = []
+    
+    while Q:
+        # at this point whatever is in the Queue belongs to one level
+        level_size: int = len(Q)
+        current_level: list[int] = []
+        
+        # we will pop all the current elements in the Queue. This means all the remaining elements will be next level
+        for _ in range(level_size):
+            current_node: int = Q.popleft()
+            current_level.append(current_node)
+            
+            for neighbor in graph[current_node]:
+                if neighbor not in discovered:
+                    discovered.add(neighbor)
+                    Q.append(neighbor)
+                    
+        result.append(current_level)
+    
+    return result
+            
         
     
 def depth_first_search(graph: dict[int, list[int]]) -> list[list[int]]:
