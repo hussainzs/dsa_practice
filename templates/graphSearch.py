@@ -85,8 +85,41 @@ def bfs_levels(graph: dict[int, list[int]], start: int = 0) -> list[list[int]]:
     return result
             
         
+def dfs_traversal(graph: dict[int, list[int]], start: int = 0) -> list[int]:
+    """Performs Depth-First Search traversal of the graph.
     
-def depth_first_search(graph: dict[int, list[int]]) -> list[list[int]]:
+    Args:
+        graph (dict[int, list[int]]): Graph represented as adjacency list
+        start (int, optional): Starting node. Defaults to 0.
+    
+    Returns:
+        list[int]: Nodes in DFS traversal order
+        
+    Example:
+        >>> graph = {0: [1, 2], 1: [3], 2: [3], 3: []}
+        >>> dfs_traversal(graph, 0)
+        [0, 1, 3, 2]
+    
+    Time: O(V + E) where V is vertices and E is edges
+    Space: O(V) for stack and visited set
+    """
+    stack: deque[int] = deque([start])
+    visited: set[int] = {start}
+    result: list[int] = []
+    
+    while stack:
+        current_node: int = stack.pop()
+        result.append(current_node)
+        
+        for neighbor in reversed(graph[current_node]):
+            if neighbor not in visited:
+                visited.add(neighbor)
+                stack.append(neighbor)
+                
+    return result
+
+    
+def dfs_trees(graph: dict[int, list[int]]) -> list[list[int]]:
     """Uses an Iterative approach to save stack space. 
     Returns a list of list where each inner list represents the dfs tree.
 
