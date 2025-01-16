@@ -87,6 +87,7 @@ def bfs_levels(graph: dict[int, list[int]], start: int = 0) -> list[list[int]]:
         
 def dfs_traversal(graph: dict[int, list[int]], start: int = 0) -> list[int]:
     """Performs Depth-First Search traversal of the graph.
+    Will only return the connected component of the starting node. If graph is disconnected, won't return the entire graph.
     
     Args:
         graph (dict[int, list[int]]): Graph represented as adjacency list
@@ -120,16 +121,50 @@ def dfs_traversal(graph: dict[int, list[int]], start: int = 0) -> list[int]:
 
     
 def dfs_trees(graph: dict[int, list[int]]) -> list[list[int]]:
-    """Uses an Iterative approach to save stack space. 
-    Returns a list of list where each inner list represents the dfs tree.
+    """Returns DFS trees (forest) for the graph, handling disconnected components.
+    Uses iterative approach to prevent stack overflow.
 
     Args:
-        graph (dict[int, list[int]]): undirected graph represented as adjacency list
+        graph (dict[int, list[int]]): Graph represented as adjacency list
 
     Returns:
-        list[list[int]]: a list of list where each inner list represents the dfs tree.
-        each node is traversed in dfs fashion
+        list[list[int]]: List of DFS trees where each tree is a list of nodes
+            in DFS traversal order
+
+    Example:
+        >>> graph = {0: [1], 1: [0], 2: [3], 3: [2]}
+        >>> dfs_trees(graph)
+        [[0, 1], [2, 3]]
+
+    Time: O(V + E) where V is vertices and E is edges
+    Space: O(V) for stack and visited set
     """
+    n: int = len(graph)
+    global_visited: set[int] = set()
+    result: list[list[int]] = []
+    
+    for root in range(n):
+        if root not in global_visited:
+            stack: deque[int] = deque([root])
+            global_visited.add(root)
+            current_tree: list[int] = []
+            
+            while stack:
+                current_node: int = stack.pop()
+                current_tree.append(current_node)
+                
+                for neighbor in reversed(graph[current_node]):
+                    if neighbor not in global_visited:
+                        global_visited.add(neighbor)
+                        stack.append(neighbor)
+            
+            # by this point we have traversed the entire connected component         
+            result.append(current_tree)
+    
+    return result
+            
+        
+    
 
 
 def convert_edgeList_to_adjList(edgeList: list[tuple[int, int]]) -> dict[int, list[int]]:
