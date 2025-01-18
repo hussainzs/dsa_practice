@@ -83,6 +83,61 @@ def bfs_levels(graph: dict[int, list[int]], start: int = 0) -> list[list[int]]:
         result.append(current_level)
     
     return result
+
+def bfs_shortest_distance_on_grid(grid: list[list[int]], start: tuple[int, int], end: tuple[int, int]) -> int:
+    """Finds the shortest path between start and end coordinate.
+
+    Args:
+        grid (list[list[int]]): A grid with 0 for valid cell and 1 for blocked cell.
+        start (tuple[int, int]): starting (x,y) coodinate for example 0,0
+        end (tuple[int, int]): ending (x,y) coordinate for example r-1, c-1 where r = num of rows and c = num of columns
+
+    Returns:
+        int: shortest path between the start and end
+    
+    Example:
+        >>> grid = [[0, 1, 0],
+                    [0, 0, 1],
+                    [1, 0, 0]]
+        start = (0,0)
+        end = (2, 2)
+        answer = 4
+
+    Time Complexity: O(r * c) where r is number of rows and c number of columns
+    Space Complexity: O(r * c) 
+    """
+    
+    # define the valid movements up, down, left, right
+    # Note that [-1,0] represent dx = -1 and dy = 0 which means we go up a row in same column. This represents UP
+    # [1,0] = DOWN, [0,-1] = LEFT, [0,1] = RIGHT
+    movements: list[list[int]] = [[-1,0], [1,0], [0,-1], [0,1]]
+    numRows: int = len(grid)
+    numCols: int = len(grid[0])
+    dist: list[list[int]] = [[0] * numRows for _ in range(numCols)] # create a r * c array initialize with 0
+    visited: list[list[bool]] = [[False] * numRows for _ in range(numCols)]
+    
+    def is_valid(coordinate: tuple[int, int]) -> bool:
+        """Method to check if a coordinate is valid"""
+        x, y = coordinate
+        return 0 <= x < numRows and 0 <= y < numCols and x != 1 and y != 1
+    
+    # initialize Q
+    Q: deque[tuple[int, int]] = deque()
+    
+    # add the starting point into Q
+    Q.append(start)
+    visited[start[0]][start[1]] = True
+    
+    # run bfs until Q is empty
+    while len(Q):
+        curr_x, curr_y = Q.popleft() # pop the top
+        
+        # 
+        for dx, dy in movements:
+            new_x: int = curr_x + dx
+            new_y: int = curr_y + dy
+        
+    
             
         
 def dfs_traversal(graph: dict[int, list[int]], start: int = 0) -> list[int]:
