@@ -1,6 +1,7 @@
 from collections import deque
 
-def bfs_traversal(graph: dict[int, list[int]], start: int) -> list[int]:
+def bfs_traversal(graph: dict[int, list[int]], 
+                  start: int) -> list[int]:
     """Returns List of nodes traversed in BFS fashion. 
 
     Args:
@@ -31,7 +32,8 @@ def bfs_traversal(graph: dict[int, list[int]], start: int) -> list[int]:
                 
     return result
 
-def bfs_levels(graph: dict[int, list[int]], start: int = 0) -> list[list[int]]:
+def bfs_levels(graph: dict[int, list[int]], 
+               start: int = 0) -> list[list[int]]:
     """Performs level-order traversal of graph, grouping nodes by their distance from start.
     
     A level consists of all nodes that are the same distance from the start node.
@@ -78,7 +80,9 @@ def bfs_levels(graph: dict[int, list[int]], start: int = 0) -> list[list[int]]:
     
     return result
 
-def bfs_shortest_distance_on_grid(grid: list[list[int]], start: tuple[int, int], end: tuple[int, int]) -> int:
+def bfs_shortest_distance_on_grid(grid: list[list[int]], 
+                                  start: tuple[int, int],
+                                  end: tuple[int, int]) -> int:
     """Finds the shortest path between start and end coordinate.
 
     Args:
